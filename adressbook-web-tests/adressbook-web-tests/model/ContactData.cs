@@ -19,6 +19,7 @@ namespace WebAdressbookTests
         private string allPhonesFromForm;
         private string contentDetails;
         private string allPhonesFromDetailPage;
+        private string allEmailsFromForm;
 
         public ContactData()
         {
@@ -88,7 +89,7 @@ namespace WebAdressbookTests
                 }
                 else
                 {
-                    return (AddPhoneSumbolH(HomePhone) + AddPhoneSumbolM(MobilePhone) + AddPhoneSumbolW(WorkPhone)).Trim();
+                    return (AddPhoneSumbolH(HomePhone) + AddPhoneSumbolM(MobilePhone) + AddPhoneSumbolW(WorkPhone));
                 }
             }
             set
@@ -126,12 +127,31 @@ namespace WebAdressbookTests
                 }
                 else
                 {
-                    return (CleanUpEmail(Email) + CleanUpEmail(Email2) + CleanUpEmail(Email3) + "\r\n").Trim();
+                    return (CleanUpEmail(Email) + CleanUpEmail(Email2) + CleanUpEmail(Email3)).Trim();
                 }
             }
             set
             {
                 allEmails = value;
+            }
+        }
+
+        public string AllEmailsFromForm
+        {
+            get
+            {
+                if (allEmailsFromForm != null)
+                {
+                    return allEmailsFromForm;
+                }
+                else
+                {
+                    return ( CheckEmail(Email) + CheckEmail(Email2) + CheckEmail(Email3)).Trim();
+                }
+            }
+            set
+            {
+                allEmailsFromForm = value;
             }
         }
         public string AllInformationFromForm
@@ -144,7 +164,7 @@ namespace WebAdressbookTests
                 }
                 else
                 {
-                    return (FullName+ "\r\n" + Adress+ "\r\n"+ "\r\n" + AllPhonesFromForm+ "\r\n" + AllEmails);
+                    return (CheckFullName(FullName) + CheckAddress(Adress) + AllPhonesFromForm + AllEmailsFromForm);
                 }
             }
             set
@@ -163,7 +183,7 @@ namespace WebAdressbookTests
                 }
                 else
                 {
-                    return (FullName + Adress + AllPhonesFromDetailPage+ AllEmails)/*.Replace("\n", "").Replace("\r", "").Trim()*/;
+                    return (FullName + Adress + AllPhonesFromDetailPage+ AllEmails);
                 }
             }
             set
@@ -191,6 +211,30 @@ namespace WebAdressbookTests
             }
         }
 
+        public string CheckFullName(string fullname)
+        {
+                if (fullname == null || fullname == "")
+                {
+                    return "";
+                }
+                else
+                {
+                    return (FirstName.Trim() + " " + LastName.Trim() + "\r\n");
+                }
+        }
+
+        public string CheckAddress(string adress)
+        {
+            if(adress == null || adress == "")
+            {
+                return "";
+            }
+            else
+            {
+                return Adress + "\r\n" + "\r\n";
+            }
+        }
+
         private string CleanUp(string phone)
         {
             if (phone == null || phone == "")
@@ -205,7 +249,7 @@ namespace WebAdressbookTests
             {
                 return "";
             }
-            return "H: "+ phone;
+            return "H: "+ phone + "\r\n";
         }
         private string AddPhoneSumbolM(string phone)
         {
@@ -213,7 +257,7 @@ namespace WebAdressbookTests
             {
                 return "";
             }
-            return "M: " + phone;
+            return "M: " + phone + "\r\n";
         }
         private string AddPhoneSumbolW(string phone)
         {
@@ -221,7 +265,7 @@ namespace WebAdressbookTests
             {
                 return "";
             }
-            return "W: " + phone;
+            return "W: " + phone + "\r\n" + "\r\n";
         }
 
         private string CleanUpEmail(string email)
@@ -231,6 +275,15 @@ namespace WebAdressbookTests
                 return "";
             }
             return email;
+        }
+
+        private string CheckEmail(string email)
+        {
+            if (email == null || email == "")
+            {
+                return "";
+            }
+            return email + "\r\n";
         }
 
         public bool Equals(ContactData other)

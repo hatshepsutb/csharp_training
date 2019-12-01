@@ -237,7 +237,7 @@ namespace WebAdressbookTests
         {
             manager.Navigator.GoToHomePage();
             ViewContactDetailsPage(0);
-            string contentDetails = driver.FindElement(By.Id("content")).Text/*.Replace("\n", "").Replace("\r", "")*/;
+            string contentDetails = driver.FindElement(By.Id("content")).Text;
 
             return new ContactData(contentDetails)
             {
