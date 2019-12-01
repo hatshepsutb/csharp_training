@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using LinqToDB.Mapping;
+using LinqToDB;
 
 
 namespace WebAdressbookTests
@@ -83,5 +84,16 @@ namespace WebAdressbookTests
             }
         }
 
+        public int? AddGroup(GroupData group)
+        {
+            using (AddressbookDB db = new AddressbookDB())
+            {
+                return db.Groups
+                    .Value(g => g.Name, group.Name)
+                    .Value(g => g.Header, group.Header)
+                    .Value(g => g.Footer, group.Footer)
+                    .InsertWithInt32Identity();
+            }
+        }
     }
 }
