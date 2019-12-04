@@ -5,6 +5,7 @@ using OpenQA.Selenium.Firefox;
 using OpenQA.Selenium.Support.UI;
 using System.IO;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace mantis_tests
 {
@@ -14,25 +15,27 @@ namespace mantis_tests
         [Test]
         public void RemoveProjectTest()
         {
+            AccountData account = new AccountData("administrator", "root");
+
             bool appHasProjects = app.Project.EnsureThereHasProject();
             if (!appHasProjects)
             {
-                ProjectData newProject = new ProjectData("Removable project");
-                newProject.Description = "Removable projectDescription";
-
-
-                app.Project.AddProjectToDb(newProject);
+                ProjectData projectData = new ProjectData("Removable project");
+                projectData.Description = "Removable projectDescription";
+                app.API.CreateNewProject(account, projectData);
             }
 
-            List<ProjectData> oldProjects = ProjectData.GetAll();
+            List<mantis.ProjectData> mantisProjectData = app.API.GetProjectsList(account);
+
+            List<ProjectData> oldProjects = mantisProjectData.Select(e => new ProjectData(e.name, e.description)).ToList();
             ProjectData toBeRemoved = oldProjects[0];
 
 
             app.Project.Remove(toBeRemoved);
 
 
-
-            List<ProjectData> newProjects = ProjectData.GetAll();
+            List<mantis.ProjectData> newMantisProjectData = app.API.GetProjectsList(account);
+            List<ProjectData> newProjects = newMantisProjectData.Select(e => new ProjectData(e.name, e.description)).ToList();
 
             oldProjects.RemoveAt(0);
 

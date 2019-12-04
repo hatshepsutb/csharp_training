@@ -27,6 +27,8 @@ namespace mantis_tests
             return this;
         }
 
+
+
         public ProjectManagementHelper Remove(ProjectData project)
         {
             manager.MenuHelper.GoToProjects();
@@ -84,6 +86,8 @@ namespace mantis_tests
 
             return projects.Count != 0;
         }
+
+
 
         public int AddProjectToDb(ProjectData project)
         {
